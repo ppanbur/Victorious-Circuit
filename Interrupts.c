@@ -3,36 +3,37 @@
 #include "extern.h"
 #include "car_defines.h"
 
+/***********************************************************************/
+/*                                                                     */
+/*  File Name:  Interrupts.c										   */
+/*  DATE        :2/26/2012			                                   */
+/*																	   */
+/*  DESCRIPTION :  This file contains all the interrupt routines for   */
+/* 	  			   the peripherals.  								   */
+/*																	   */
+/*  CPU GROUP   :M16C                                                  */
+/*                                                                     */
+/*  Modified By: Peter Panburana (ppanbur)							   */
+/*  Version 1.1 (3/5/2012)											   */
+/*                                                                     */
+/***********************************************************************/
+
+//Defines go here 
 #define PWM_INIT_STATE 0x00 
 #define PWM_ON_COUNT_STATE 0x01 
 #define PWM_OFF_COUNT_STATE 0x02
 #define FULLY_ON 0x03
 #define FULLY_OFF 0x04
 
-/***********************************************************************/
-/*                                                                     */
-/*  DATE        :2/26/2012			                                   */
-/*																	   */
-/*  DESCRIPTION :  This file contains all the interrupt routines for   */
-/* 	  				the peripherals.  								   */
-/*																	   */
-/*  CPU GROUP   :62P                                                   */
-/*                                                                     */
-/*  Copyright (c) 2009 by BNS Solutions, Inc.						   */
-/*  All rights reserved.											   */
-/*                                                                     */
-/***********************************************************************/
-
+//Derectives for unmodified interrupts 
 #pragma INTERRUPT A2DInterrupt
 #pragma INTERRUPT UART0TransmitInterrupt
 #pragma INTERRUPT UART0ReceiveInterrupt
-#pragma INTERRUPT TimerA1Interrupt
 #pragma INTERRUPT TimerA2Interrupt
 #pragma INTERRUPT KeyBoardInterrupt
 #pragma INTERRUPT DMA0Interrupt
 #pragma INTERRUPT WakeUpInterrupt
 #pragma INTERRUPT RTCInterrupt
-#pragma INTERRUPT TimerB0Interrupt
 #pragma INTERRUPT WatchDogInterrupt
 
 void A2DInterrupt(void)
@@ -89,16 +90,19 @@ void UART0ReceiveInterrupt(void)
     
 }
 
+#pragma INTERRUPT TimerA1Interrupt
 void TimerA1Interrupt(void)
-//-----------------------------------------------------------------------------------------------------
-//  Purpose:	Timer A1 is associated with PWM control of the car's two motors. Its interrupt  
-//				charged with calculating PWM on/off durations for both motors. 
-//  
-//
-//  Rev: 1.3beta  State names added, motor struct updated to only allow one direction at any given time  
-//  
-//  Notes:        ~MUST DISABLE OTHER PORT BEFORE ACTIVATING OTHER DIRECTION~  
-//-----------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------
+//  Purpose:	Interrupt for calculating and applying PWM for each motor(2) in the global array of motors
+//  System registers associated with setRightMotorSpeed
+//  Port 3 Register - activately determines how long either the forward of reverse pin of each motor should 
+//  				  be held "on" or or "off" 
+//  Locals: (int) i - for loop counter value 
+//			(unsigned char) *m_port - holds the address of the port 3 register 
+//  Author: Peter Panburana (ppanbur) 
+//  Rev:    1.3   
+//  Built using: HEW Version 4.09.00.007
+//---------------------------------------------------------------------------------------------------------
 {
 
 	int i; //Loop variable
@@ -108,22 +112,19 @@ void TimerA1Interrupt(void)
 	{
 		switch(car_motors[i].count_state)
 		{
-			case PWM_INIT_STATE: // the initialization state
-				
+			case PWM_INIT_STATE: // the initialization state	
 			
-				if(car_motors[i].speed == 100)
+				if(car_motors[i].speed == 100) //Motor is on at max power
 				{
 					car_motors[i].count_state = FULLY_ON; //go to the on state
-					break;
-					
+					break;			
 				}
 				
-				else if(car_motors[i].speed == 0)
+				else if(car_motors[i].speed == 0) //Motor is off 
 				{
 					car_motors[i].count_state = FULLY_OFF; //go to the off state
 					break;
-				}
-				
+				}			
 				else
 				{				
 					car_motors[i].off_time = 100 - car_motors[i].speed; //calculate the off time
@@ -158,7 +159,7 @@ void TimerA1Interrupt(void)
 				car_motors[i].count_state = PWM_INIT_STATE;
 				break;					
 			default:
-				car_motors[i].count_state = PWM_INIT_STATE; //just reinitialize it
+				car_motors[i].count_state = PWM_INIT_STATE; //just reinitialize it should it ever end up here 
 				break;
 		}
 			
@@ -217,18 +218,17 @@ void RTCInterrupt(void)
 //-----------------------------------------------------------------------------------------------------
 {
 }
-
+#pragma INTERRUPT TimerB0Interrupt
 void TimerB0Interrupt(void)
-//-----------------------------------------------------------------------------------------------------
-//  Purpose:	Unused in this program
-//  
-//
-//  Rev:    1.0     Initial Release
-//  
-//  Notes:          None    
-//-----------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------
+//  Purpose:	Interrupt for timer B0, increments a global value that indicates how many milliseconds it 
+// 				has counted to since the timer was started. 
+//  Author: Peter Panburana (ppanbur) 
+//  Rev:    1.0 Initial Release   
+//  Built using: HEW Version 4.09.00.007
+//---------------------------------------------------------------------------------------------------------
 {
-	ms_counter++;
+	ms_counter++; 
 }
 
 void WatchDogInterrupt(void)

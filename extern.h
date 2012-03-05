@@ -1,18 +1,18 @@
-//This is the updated extern.h
-
 /***********************************************************************/
-/*                                                                     */
+/*  																   */
+/*  File Name:  extern.h                                               */
 /*  DATE        :2/18/2012                                             */
 /*																	   */
 /*  DESCRIPTION :  All external declarations shall be made in this file*/
 /* 	  																   */
 /*																	   */
-/*  CPU GROUP   :62P                                                   */
+/*  CPU GROUP   :M16C                                                  */
 /*                                                                     */
-/*  						  										   */
-/*  All rights reserved.											   */
+/*  AUTHOR: Peter Panburana (ppanbur)								   */
+/*  Version: 1.1 (3/5/2012) 										   */
 /*                                                                     */
 /***********************************************************************/
+
 
 // Project Specific 
 
@@ -33,6 +33,6 @@ extern uint A2DValuePot;
 extern uint A2DValueTherm;
 extern uchar A2DProcessed;
 
-//the global array of motors which is initialized in main.c but needs to be declared here  
+//Project Specific 
 extern Motor car_motors[2];
 extern volatile unsigned int ms_counter;

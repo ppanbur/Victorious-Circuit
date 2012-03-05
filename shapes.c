@@ -1,92 +1,104 @@
 #include "QSKDefines.h"
 #include "proto.h"
 #include "extern.h"
-#include "car_defines.h"
-
 
 /***********************************************************************/
 /*                                                                     */
-/*  NAME		:	shapes.c										   */
-/*   																   */
-/*	DATE        :	2/17/2012                                 */
+/*  File Name:   shapes.c                                              */
+/*  DATE:        2/18/2012                                             */
 /*																	   */
-/*  DESCRIPTION :  	This file contains all of the motor related 	   */
-/*					functions		   								   */
+/*  DESCRIPTION:  All shape choreography functions			  		   */
+/*				  are defined here 									   */
+/* 	  																   */
 /*																	   */
-/*	BUILD		:	HEW Version 4.05.01.001							   */
-/*																	   */
+/*  CPU GROUP   :M16C                                                  */
+/*                                                                     */
+/*  						  										   */
+/*  AUTHOR: Peter Panburana (ppanbur)								   */
+/*  Version: 1.1 (3/5/2012) 										   */
+/*                                                                     */
 /***********************************************************************/
 
-
 void DoTriangle(void)
+//---------------------------------------------------------------------------------------------------------
+//  Purpose: Choreographed routine for making the Victorious Circuit move in a triangle
+//  
+//  Author: Peter Panburana (ppanbur) 
+//  Rev:    1.3   
+//  Built using: HEW Version 4.09.00.007
+//---------------------------------------------------------------------------------------------------------
 {
 	//Turn Slightly 
 	setLeftMotorSpeed(40);
 	setRightMotorSpeed(10);
-	delayMiliseconds(900);
+	delayMilliseconds(900);
 	//Go Straight
 	setLeftMotorSpeed(30);
 	setRightMotorSpeed(30);
-	delayMiliseconds(1000);
+	delayMilliseconds(1000);
 	//Turn Longer
 	setLeftMotorSpeed(40);
 	setRightMotorSpeed(10);
-	delayMiliseconds(2000);
+	delayMilliseconds(2000);
 	//Go Straight
 	setLeftMotorSpeed(30);
 	setRightMotorSpeed(30);
-	delayMiliseconds(800);
+	delayMilliseconds(800);
 	//Turn Longer
 	setLeftMotorSpeed(40);
 	setRightMotorSpeed(10);
-	delayMiliseconds(3200);
+	delayMilliseconds(3200);
 	//Go Straight
 	setLeftMotorSpeed(30);
 	setRightMotorSpeed(30);
-	delayMiliseconds(1500);
+	delayMilliseconds(1500);
 	//Stop
 	setLeftMotorSpeed(0);
 	setRightMotorSpeed(0);
 }
 
-void testPWM(void)
-{
-	setLeftMotorSpeed(40);
-	setRightMotorSpeed(10);
-	delayMiliseconds(6500);
-	setLeftMotorSpeed(10);
-	setRightMotorSpeed(40);
-	delayMiliseconds(6500);
-	setLeftMotorSpeed(0);
-	setRightMotorSpeed(0);
-	delayMiliseconds(1000);
-	setLeftMotorSpeed(100);
-	setRightMotorSpeed(100);
-	delayMiliseconds(1000);
-	setLeftMotorSpeed(0);
-	setRightMotorSpeed(0);	
-}
 
-void figure8(void)
+
+void DoFigureEight(void)
+//---------------------------------------------------------------------------------------------------------
+//  Purpose: Choreographed routine for making the Victorious Circuit move in a figure eight 
+//  
+//  Author: Peter Panburana (ppanbur) 
+//  Rev:    1.3   
+//  Built using: HEW Version 4.09.00.007
+//---------------------------------------------------------------------------------------------------------
 {
+	//The first full circle
 	setLeftMotorSpeed(40);
 	setRightMotorSpeed(10);
-	delayMiliseconds(6500);
+	delayMilliseconds(6500);
+	//The second full circle
 	setLeftMotorSpeed(10);
 	setRightMotorSpeed(40);
-	delayMiliseconds(6500);
+	delayMilliseconds(6500);
+	//Stop
 	setLeftMotorSpeed(0);
 	setRightMotorSpeed(0);
 }
 
 void project2ADemo(void)
+//---------------------------------------------------------------------------------------------------------
+//  Purpose: Choreographed routine for demonstrating full H-Bridge capabilites for Project 2A
+//  
+//  Author: Peter Panburana (ppanbur) 
+//  Rev:    1.3   
+//  Built using: HEW Version 4.09.00.007
+//---------------------------------------------------------------------------------------------------------
 {
+	//Go forward for 5 seconds at 40% duty cycle 
 	setLeftMotorSpeed(40);
 	setRightMotorSpeed(40);
-	delayMiliseconds(10000);
+	delayMilliseconds(5000);
+	//Go backwards for 5 seconds at 40% duty cycle 
 	setLeftMotorSpeed(-40);
 	setRightMotorSpeed(-40);
-	delayMiliseconds(10000);
+	delayMilliseconds(5000);
+	//Stop 
 	setLeftMotorSpeed(0);
 	setRightMotorSpeed(0);
 	
